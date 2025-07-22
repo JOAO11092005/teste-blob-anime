@@ -21,58 +21,63 @@
             --progress-bg: rgba(255, 255, 255, 0.3);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body,
-        html {
+        body, html {
             font-family: 'Montserrat', sans-serif;
             background-color: #000;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             overflow: hidden;
         }
 
         .video-container {
-            width: 100vw;
-            height: 100vh;
+            width: 100vw; height: 100vh;
             position: relative;
             background-color: #000;
             cursor: default;
         }
 
         video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Alterado para 'contain' para evitar cortes */
+            width: 100%; height: 100%;
+            object-fit: contain;
             display: block;
+        }
+        
+        .loading-indicator {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column; /* Para alinhar texto abaixo do spinner */
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: var(--theme-orange);
+            font-size: 50px;
+        }
+
+        /* NOVO: Estilo para o texto da porcentagem */
+        .loading-indicator #progress-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 20px;
         }
 
         .overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             z-index: 2;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
         }
 
-        .video-container.controls-active .overlay {
-            opacity: 1;
-        }
+        .video-container.controls-active .overlay { opacity: 1; }
 
-        /* NOVO: Barra superior com título */
         .top-bar {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
             padding: 20px 30px;
             pointer-events: all;
@@ -85,16 +90,12 @@
         }
 
         .episode-title {
-            color: var(--text-color);
-            font-size: 18px;
-            font-weight: 600;
+            color: var(--text-color); font-size: 18px; font-weight: 600;
         }
 
         .controls-container {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
             padding: 10px 30px 20px;
             z-index: 3;
@@ -102,24 +103,20 @@
         }
 
         .progress-controls {
-            margin-bottom: 10px;
-            padding: 5px 0;
+            margin-bottom: 10px; padding: 5px 0;
         }
 
         #progress-bar {
             width: 100%;
             -webkit-appearance: none; appearance: none;
-            height: 4px; /* Mais fina por padrão */
+            height: 4px;
             background: var(--progress-bg);
             border-radius: 5px; cursor: pointer;
             outline: none;
             transition: height 0.2s;
         }
         
-        /* NOVO: Efeito hover na barra */
-        .progress-controls:hover #progress-bar {
-            height: 8px;
-        }
+        .progress-controls:hover #progress-bar { height: 8px; }
 
         #progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none; appearance: none;
@@ -127,14 +124,11 @@
             background: var(--theme-orange);
             border-radius: 50%;
             cursor: pointer;
-            transform: scale(0); /* Escondido por padrão */
+            transform: scale(0);
             transition: transform 0.2s;
         }
         
-        /* NOVO: Mostra o polegar no hover */
-        .progress-controls:hover #progress-bar::-webkit-slider-thumb {
-            transform: scale(1);
-        }
+        .progress-controls:hover #progress-bar::-webkit-slider-thumb { transform: scale(1); }
 
         .main-controls {
             display: flex;
@@ -145,7 +139,7 @@
         .left-controls, .right-controls {
             display: flex;
             align-items: center;
-            gap: 15px; /* NOVO: Espaçamento entre ícones */
+            gap: 15px;
         }
 
         .control-button {
@@ -165,15 +159,12 @@
             font-weight: 600;
         }
 
-        .volume-controls {
-            display: flex; align-items: center;
-        }
-        #volume-slider { /* Estilo do slider de volume */
+        .volume-controls { display: flex; align-items: center; }
+        #volume-slider {
             -webkit-appearance: none; appearance: none;
             width: 70px; height: 4px;
             background: var(--progress-bg);
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 5px; cursor: pointer;
             margin-left: 8px;
         }
         #volume-slider::-webkit-slider-thumb {
@@ -183,36 +174,22 @@
             border-radius: 50%;
         }
 
-        /* NOVO: Menu de Configurações */
         .settings-menu {
             position: absolute;
-            bottom: 80px;
-            right: 20px;
+            bottom: 80px; right: 20px;
             background-color: var(--control-bg);
             border-radius: 8px;
             padding: 10px;
             color: var(--text-color);
-            display: none; /* Escondido por padrão */
+            display: none;
             z-index: 4;
         }
-        .settings-menu.active {
-            display: block;
-        }
-        .settings-menu .setting {
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .settings-menu .setting:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .settings-menu .setting-label {
-            color: var(--text-color-dim);
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
+        .settings-menu.active { display: block; }
+        .settings-menu .setting { padding: 8px 12px; cursor: pointer; border-radius: 4px; }
+        .settings-menu .setting:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .settings-menu .setting-label { color: var(--text-color-dim); font-size: 12px; margin-bottom: 5px; }
         
-        .big-play-button-center { /* NOVO: Container para botões centrais */
+        .big-play-button-center {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
@@ -225,15 +202,11 @@
             transition: opacity 0.2s;
         }
         
-        .big-play-button-center.visible {
-            opacity: 1;
-        }
+        .big-play-button-center.visible { opacity: 1; }
         
         .big-play-button-center .control-button {
-            font-size: 50px;
-            pointer-events: all;
+            font-size: 50px; pointer-events: all;
         }
-
     </style>
 </head>
 
@@ -242,7 +215,8 @@
         <video id="video"></video>
         
         <div class="loading-indicator" id="loading-indicator">
-            <i class="fas fa-spinner fa-spin" style="color: var(--theme-orange);"></i>
+            <i class="fas fa-spinner fa-spin"></i>
+            <span id="progress-text">0%</span>
         </div>
 
         <div class="big-play-button-center" id="big-play-button-center">
@@ -296,6 +270,7 @@
         const videoContainer = document.getElementById('video-container');
         const video = document.getElementById('video');
         const loadingIndicator = document.getElementById('loading-indicator');
+        const progressText = document.getElementById('progress-text'); // ADICIONADO DE VOLTA
         const overlay = document.getElementById('overlay');
         const playPauseBtn = document.getElementById('play-pause-btn');
         const bigPlayPauseBtn = document.getElementById('big-play-pause-btn');
@@ -310,36 +285,68 @@
         const currentTimeElem = document.getElementById('current-time');
         const totalTimeElem = document.getElementById('total-time');
 
-        // --- LÓGICA DE CARREGAMENTO DO VÍDEO ---
+        // --- LÓGICA DE CARREGAMENTO RESTAURADA ---
         const loadVideo = async () => {
-             const videoUrl = '/api/video-proxy';
-             try {
+            const videoUrl = '/api/video-proxy';
+            try {
                 const response = await fetch(videoUrl);
-                if (!response.ok) throw new Error('Falha na rede');
-                const videoBlob = await response.blob();
+                if (!response.ok) throw new Error('Falha na rede ao buscar o vídeo.');
+
+                const contentLength = response.headers.get('content-length');
+                if (!contentLength) {
+                    console.warn("Não foi possível obter o tamanho do vídeo. O indicador de progresso será desativado.");
+                    progressText.style.display = 'none'; // Esconde o texto da % se não soubermos o tamanho
+                    const videoBlob = await response.blob();
+                    video.src = URL.createObjectURL(videoBlob);
+                    return;
+                }
+
+                const total = parseInt(contentLength, 10);
+                let loaded = 0;
+
+                const reader = response.body.getReader();
+                const stream = new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then(({ done, value }) => {
+                                if (done) {
+                                    controller.close();
+                                    return;
+                                }
+                                loaded += value.length;
+                                const percentage = Math.round((loaded / total) * 100);
+                                progressText.textContent = `${percentage}%`;
+                                controller.enqueue(value);
+                                push();
+                            });
+                        }
+                        push();
+                    }
+                });
+
+                const streamResponse = new Response(stream);
+                const videoBlob = await streamResponse.blob();
                 video.src = URL.createObjectURL(videoBlob);
-             } catch (error) {
+
+            } catch (error) {
                 console.error("Erro ao carregar o vídeo:", error);
                 loadingIndicator.innerHTML = "Erro!";
-             }
+            }
         };
 
         // --- LÓGICA DE CONTROLES ---
         const togglePlay = () => { video.paused ? video.play() : video.pause(); };
-
         const updatePlayPauseIcons = () => {
             const isPaused = video.paused;
             playPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
             bigPlayPauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
             document.getElementById('big-play-button-center').classList.toggle('visible', isPaused);
         };
-
         const formatTime = (time) => {
             const minutes = Math.floor(time / 60);
             const seconds = Math.floor(time % 60);
             return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         };
-        
         const updateProgress = () => {
             if (isNaN(video.duration)) return;
             const progressPercentage = (video.currentTime / video.duration) * 100;
@@ -347,30 +354,23 @@
             currentTimeElem.textContent = formatTime(video.currentTime);
             progressBar.style.background = `linear-gradient(to right, var(--theme-orange) ${progressPercentage}%, var(--progress-bg) ${progressPercentage}%)`;
         };
-
         const setVideoProgress = () => { video.currentTime = (progressBar.value / 100) * video.duration; };
         const changeVolume = () => { video.volume = volumeSlider.value; };
-
         const updateVolumeIcon = () => {
             const icon = muteBtn.querySelector('i');
             if (video.muted || video.volume === 0) icon.className = 'fas fa-volume-xmark';
             else if (video.volume > 0.5) icon.className = 'fas fa-volume-high';
             else icon.className = 'fas fa-volume-low';
         };
-
         const toggleMute = () => { video.muted = !video.muted; };
-        
         const toggleSettingsMenu = (e) => {
             e.stopPropagation();
             settingsMenu.classList.toggle('active');
         };
-
         const toggleFullscreen = () => {
             if (!document.fullscreenElement) {
                 videoContainer.requestFullscreen().catch(err => alert(`Erro: ${err.message}`));
-            } else {
-                document.exitFullscreen();
-            }
+            } else { document.exitFullscreen(); }
         };
 
         // --- LÓGICA DE VISIBILIDADE DOS CONTROLES ---
@@ -395,7 +395,7 @@
         video.addEventListener('play', updatePlayPauseIcons);
         video.addEventListener('pause', () => {
             updatePlayPauseIcons();
-            showControls(); // Mantém controles visíveis quando pausado
+            showControls();
         });
         video.addEventListener('timeupdate', updateProgress);
         video.addEventListener('volumechange', updateVolumeIcon);
