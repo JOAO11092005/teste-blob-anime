@@ -1,0 +1,25 @@
+{
+  "name": "player-blob",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000t\u0000e\u0000s\u0000t\u0000e\u0000-\u0000b\u0000l\u0000o\u0000b\u0000-\u0000a\u0000n\u0000i\u0000m\u0000e\u0000\r\u0000 \u0000# teste-blob-anime",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JOAO11092005/teste-blob-anime.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JOAO11092005/teste-blob-anime/issues"
+  },
+  "homepage": "https://github.com/JOAO11092005/teste-blob-anime#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0"
+  }
+}
