@@ -1,27 +1,24 @@
-// server.js
+// server.js ATUALIZADO
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path'); // NOVO: Módulo para lidar com caminhos de arquivos
 const app = express();
-const port = 3000; // Nosso proxy vai rodar na porta 3000
 
+// A porta é fornecida pela Render, ou usamos 3000 localmente
+const port = process.env.PORT || 3000; 
+
+// Rota do proxy (continua igual)
 app.get('/video-proxy', async (req, res) => {
     try {
-        // A URL real do vídeo que queremos buscar
         const videoUrl = 'https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/01.mp4';
-
-        console.log(`Recebido pedido para o proxy. Buscando vídeo em: ${videoUrl}`);
-
         const response = await fetch(videoUrl);
 
         if (!response.ok) {
             throw new Error(`Erro no servidor de origem: ${response.statusText}`);
         }
-
-        // Repassa os cabeçalhos importantes (como o tamanho do conteúdo) para o cliente
+        
         res.setHeader('Content-Type', response.headers.get('content-type'));
         res.setHeader('Content-Length', response.headers.get('content-length'));
-
-        // Envia o corpo da resposta (o vídeo) para o navegador
         response.body.pipe(res);
 
     } catch (error) {
@@ -30,10 +27,13 @@ app.get('/video-proxy', async (req, res) => {
     }
 });
 
-// Isso serve o seu arquivo HTML principal
-app.use(express.static('.')); 
+// NOVO: Rota principal para servir o arquivo HTML
+// Quando alguém acessar a URL raiz ('/'), nós enviamos o arquivo teste.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'teste.html'));
+});
 
 app.listen(port, () => {
-    console.log(`Servidor proxy rodando em http://localhost:${port}`);
-    console.log(`Acesse seu player em http://localhost:${port}/teste.html`);
+    // A mensagem do console foi um pouco simplificada
+    console.log(`Servidor rodando na porta ${port}`);
 });
