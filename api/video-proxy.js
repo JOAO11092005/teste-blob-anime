@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 // Esta é uma Função Serverless. Ela recebe o pedido (req) e a resposta (res).
 module.exports = async (req, res) => {
   try {
-    const videoUrl = 'https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/01.mp4';
+    const videoUrl = 'https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/02.mp4';
     const response = await fetch(videoUrl);
 
     if (!response.ok) {
