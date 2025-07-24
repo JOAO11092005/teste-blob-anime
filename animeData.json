@@ -1,0 +1,105 @@
+{
+  "animes": [
+    {
+      "id": "kaijuu-8-gou",
+      "title": "Kaijuu 8-gou",
+      "poster": "https://example.com/kaijuu8gou_poster.jpg",
+      "banner": "https://example.com/kaijuu8gou_banner.jpg",
+      "description": "Após um incidente de Kaiju, um homem ganha a capacidade de se transformar em um Kaiju e é caçado pelas forças de defesa.",
+      "genres": ["Ação", "Sci-Fi", "Shounen"],
+      "seasons": [
+        {
+          "seasonNumber": 1,
+          "title": "Temporada 1 (Dublado)",
+          "episodes": [
+            {
+              "episodeNumber": 1,
+              "title": "O Homem Que Se Tornou um Kaijuu",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep1_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/01.mp4"
+            },
+            {
+              "episodeNumber": 2,
+              "title": "O Destino do Kaijuu",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep2_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/02.mp4"
+            },
+            {
+              "episodeNumber": 3,
+              "title": "O Desafio da Força de Defesa",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep3_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/03.mp4"
+            },
+            {
+              "episodeNumber": 4,
+              "title": "A Nova Equipe",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep4_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/04.mp4"
+            },
+            {
+              "episodeNumber": 5,
+              "title": "Missão de Resgate",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep5_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/05.mp4"
+            },
+            {
+              "episodeNumber": 6,
+              "title": "Ameaça Inesperada",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep6_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/06.mp4"
+            },
+            {
+              "episodeNumber": 7,
+              "title": "Treinamento Intenso",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep7_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/07.mp4"
+            },
+            {
+              "episodeNumber": 8,
+              "title": "O Poder Interior",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep8_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/08.mp4"
+            },
+            {
+              "episodeNumber": 9,
+              "title": "Confronto Direto",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep9_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/09.mp4"
+            },
+            {
+              "episodeNumber": 10,
+              "title": "A Revelação",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep10_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/10.mp4"
+            },
+            {
+              "episodeNumber": 11,
+              "title": "Por Um Mundo Seguro",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep11_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/11.mp4"
+            },
+            {
+              "episodeNumber": 12,
+              "title": "O Herói Imperfeito",
+              "thumbnail": "https://example.com/kaijuu8gou_s1_ep12_thumb.jpg",
+              "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/12.mp4"
+            }
+          ]
+        },
+        {
+          "seasonNumber": 2,
+          "title": "Temporada 2",
+          "episodes": [
+            {
+              "episodeNumber": 1,
+              "title": "Um Novo Começo",
+              "thumbnail": "https://example.com/kaijuu8gou_s2_ep1_thumb.jpg",
+              "videoUrl": "https://animes.rpmplay.me/hls/HErioFoY1d3mjL77RTnxIQ/vz/b6ikxf9x/n3pc8w/tt/master.m3u8?v=1751082628"
+            }
+            
+          ]
+        }
+      ]
+    }
+  ]
+}

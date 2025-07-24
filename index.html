@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Kaijuu 8-gou</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23F47521' d='M8 5v14l11-7z'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --theme-orange: #F47521;
+            --bg-dark: #101010;
+            --card-bg: #1c1c1c;
+            --text-color: #f0f0f0;
+            --text-color-dim: #aaa;
+            --border-color: rgba(244, 117, 33, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: var(--theme-orange);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .anime-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #222;
+        }
+
+        .anime-header {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 30px;
+            padding: 30px;
+            min-height: 350px;
+            background-size: cover;
+            background-position: center 25%;
+        }
+
+        .anime-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(28, 28, 28, 1) 10%, rgba(28, 28, 28, 0.7) 50%, rgba(28, 28, 28, 0.2) 100%);
+        }
+
+        .anime-header > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .anime-header img {
+            width: 180px;
+            height: 270px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .anime-info { flex-grow: 1; }
+
+        .anime-info h2 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+        }
+
+        .anime-info p {
+            font-size: 1em;
+            color: var(--text-color-dim);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            max-width: 80ch;
+        }
+
+        .anime-genres span {
+            display: inline-block;
+            background-color: rgba(244, 117, 33, 0.2);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            color: var(--theme-orange);
+            font-weight: 600;
+            border: 1px solid rgba(244, 117, 33, 0.5);
+        }
+
+        .seasons-section {
+            padding: 25px 30px;
+            background-color: #161616;
+        }
+
+        .season-select {
+            background-color: #2c2c2c;
+            color: var(--text-color);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 25px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F47521'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 50px;
+            transition: background-color 0.2s;
+        }
+        .season-select:hover {
+            background-color: #333;
+        }
+
+        .episode-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .episode-card {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: left;
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        .episode-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .episode-card:active {
+            transform: translateY(-2px) scale(0.99);
+        }
+
+        .episode-card .thumbnail-container {
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            position: relative;
+            background-color: #111;
+        }
+
+        .episode-card .thumbnail-container img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .episode-card .thumbnail-container .play-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            font-size: 3em;
+            color: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .episode-card:hover .play-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .episode-card-info { padding: 15px; }
+
+        .episode-card-info h3 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .episode-card-info p {
+            font-size: 0.8em;
+            color: var(--text-color-dim);
+        }
+
+        .loading-dashboard {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: var(--theme-orange);
+        }
+        .loading-dashboard i {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .anime-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+                min-height: auto;
+            }
+            .anime-header img {
+                width: 150px;
+                height: 225px;
+                margin-bottom: 20px;
+            }
+            .anime-info h2 {
+                font-size: 2em;
+            }
+            .anime-info p {
+                font-size: 0.9em;
+                max-width: none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard de Animes</h1>
+        <div id="anime-list">
+             <div class="loading-dashboard" id="dashboard-loading">
+                 <i class="fas fa-spinner fa-spin"></i>
+                 <p>Carregando dashboard...</p>
+             </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados do anime incorporados diretamente no script
+        const animeData = {
+          "animes": [
+            {
+              "id": "kaijuu-8-gou",
+              "title": "Kaijuu 8-gou",
+              "poster": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx155685-52Qe2ddd267k.jpg",
+              "banner": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/155685-18NxDgjJs6n5.jpg",
+              "description": "Kafka Hibino, um homem que sonhava em se alistar na Força de Defesa do Japão, agora trabalha para uma empresa especializada em limpar os restos de batalhas contra 'kaijuus'. Tudo muda quando uma pequena criatura entra em seu corpo, transformando-o no Kaijuu nº 8 e colocando-o na mira da Força de Defesa.",
+              "genres": ["Ação", "Sci-Fi", "Shounen", "Aventura"],
+              "seasons": [
+                {
+                  "seasonNumber": 1,
+                  "title": "Temporada 1 (Dublado)",
+                  "episodes": [
+                    { "episodeNumber": 1, "title": "O Homem Que Se Tornou um Kaijuu", "thumbnail": "https://img.topflix.tv/imgs/s/8/1/8/8/81881.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/01.mp4" },
+                    { "episodeNumber": 2, "title": "O Kaijuu que Derrota Kaijuus", "thumbnail": "https://img.topflix.tv/imgs/s/8/1/8/9/81898.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/02.mp4" },
+                    { "episodeNumber": 3, "title": "A Revanche", "thumbnail": "https://img.topflix.tv/imgs/s/8/1/9/1/81919.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/03.mp4" },
+                    { "episodeNumber": 4, "title": "Fortitude 9.8", "thumbnail": "https://img.topflix.tv/imgs/s/8/1/9/3/81938.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/04.mp4" },
+                    { "episodeNumber": 5, "title": "Alistamento", "thumbnail": "https://img.topflix.tv/imgs/s/8/1/9/6/81961.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/05.mp4" },
+                    { "episodeNumber": 6, "title": "A Operação de Extermínio em Sagamihara", "thumbnail": "https://img.topflix.tv/imgs/s/8/1/9/9/81995.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/06.mp4" },
+                    { "episodeNumber": 7, "title": "Kaijuu Nº 9", "thumbnail": "https://img.topflix.tv/imgs/s/8/2/0/3/82035.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/07.mp4" },
+                    { "episodeNumber": 8, "title": "Bem-vindos à Força de Defesa", "thumbnail": "https://img.topflix.tv/imgs/s/8/2/0/7/82071.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/08.mp4" },
+                    { "episodeNumber": 9, "title": "Ataque à Base de Tachikawa", "thumbnail": "https://img.topflix.tv/imgs/s/8/2/1/1/82110.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/09.mp4" },
+                    { "episodeNumber": 10, "title": "Segredos Revelados", "thumbnail": "https://img.topflix.tv/imgs/s/8/2/1/5/82155.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/10.mp4" },
+                    { "episodeNumber": 11, "title": "A Captura do Kaijuu Nº 8", "thumbnail": "https://img.topflix.tv/imgs/s/8/2/2/0/82200.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/11.mp4" },
+                    { "episodeNumber": 12, "title": "Kafka Hibino", "thumbnail": "https://img.topflix.tv/imgs/s/8/2/2/4/82244.jpg", "videoUrl": "https://animeflix.blog/Animes/Letra-K/Kaijuu%208-gou/Dub/12.mp4" }
+                  ]
+                },
+                {
+                  "seasonNumber": 2,
+                  "title": "Temporada 2 (Em breve)",
+                  "episodes": []
+                }
+              ]
+            }
+          ]
+        };
+
+        const animeListContainer = document.getElementById('anime-list');
+        const dashboardLoading = document.getElementById('dashboard-loading');
+
+        const encrypt = (text) => btoa(text); // Ofusca a URL com Base64
+
+        const renderAnimeDashboard = (animes) => {
+            dashboardLoading.style.display = 'none';
+            animeListContainer.innerHTML = '';
+
+            animes.forEach(anime => {
+                const animeCard = document.createElement('div');
+                animeCard.classList.add('anime-card');
+                animeCard.style.animation = 'fadeIn 1s ease-out';
+
+                const seasonOptions = anime.seasons.map(season =>
+                    `<option value="${season.seasonNumber}">${season.title}</option>`
+                ).join('');
+
+                animeCard.innerHTML = `
+                    <div class="anime-header" style="background-image: url('${anime.banner}');">
+                        <img src="${anime.poster}" alt="${anime.title} Poster">
+                        <div class="anime-info">
+                            <h2>${anime.title}</h2>
+                            <p>${anime.description}</p>
+                            <div class="anime-genres">
+                                ${anime.genres.map(genre => `<span>${genre}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="seasons-section">
+                        <select class="season-select" data-anime-id="${anime.id}">
+                            ${seasonOptions}
+                        </select>
+                        <div class="episode-list" id="episode-list-${anime.id}">
+                            </div>
+                    </div>
+                `;
+                animeListContainer.appendChild(animeCard);
+                
+                // Carrega os episódios da primeira temporada por padrão
+                const seasonSelect = animeCard.querySelector('.season-select');
+                displayEpisodesForSeason(anime.id, parseInt(seasonSelect.value), anime);
+
+                // Adiciona listener para mudança de temporada
+                seasonSelect.addEventListener('change', (event) => {
+                    const selectedSeasonNumber = parseInt(event.target.value);
+                    displayEpisodesForSeason(anime.id, selectedSeasonNumber, anime);
+                });
+            });
+        };
+
+        const displayEpisodesForSeason = (animeId, seasonNumber, animeData) => {
+            // BUG FIX: O seletor agora usa um ID único por anime, não por temporada
+            const episodeListDiv = document.getElementById(`episode-list-${animeId}`);
+            episodeListDiv.innerHTML = ''; // Limpa os episódios existentes
+
+            const selectedSeason = animeData.seasons.find(s => s.seasonNumber === seasonNumber);
+
+            if (selectedSeason && selectedSeason.episodes.length > 0) {
+                selectedSeason.episodes.forEach((episode, index) => {
+                    const episodeCard = document.createElement('div');
+                    episodeCard.classList.add('episode-card');
+                    // Adiciona um delay na animação para um efeito cascata
+                    episodeCard.style.animationDelay = `${index * 0.05}s`;
+
+                    episodeCard.innerHTML = `
+                        <div class="thumbnail-container">
+                             <img src="${episode.thumbnail}" alt="${episode.title} Thumbnail" loading="lazy">
+                             <div class="play-icon"><i class="fas fa-play-circle"></i></div>
+                        </div>
+                        <div class="episode-card-info">
+                            <h3>EP ${episode.episodeNumber}: ${episode.title}</h3>
+                            <p>Clique para assistir</p>
+                        </div>
+                    `;
+                    episodeCard.addEventListener('click', () => {
+                        const encryptedUrl = encrypt(episode.videoUrl);
+                        const title = encodeURIComponent(animeData.title);
+                        const ep = encodeURIComponent(`T${selectedSeason.seasonNumber} E${episode.episodeNumber}`);
+                        // Assumindo que você tem uma página player.html
+                        window.location.href = `player.html?video=${encryptedUrl}&title=${title}&ep=${ep}`;
+                    });
+                    episodeListDiv.appendChild(episodeCard);
+                });
+            } else {
+                episodeListDiv.innerHTML = '<p style="color: var(--text-color-dim); text-align: center; grid-column: 1 / -1;">Nenhum episódio encontrado para esta temporada.</p>';
+            }
+        };
+
+        // Carrega os dados quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+             // Simula um pequeno atraso para exibir a animação de loading
+            setTimeout(() => {
+                renderAnimeDashboard(animeData.animes);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
