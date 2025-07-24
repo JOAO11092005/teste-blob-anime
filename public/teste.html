@@ -11,43 +11,202 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Seu CSS continua o mesmo, sem alterações necessárias */
-        :root { --theme-orange: #F47521; --control-bg: rgba(20, 20, 20, 0.9); --text-color: #fff; --text-color-dim: #aaa; --progress-bg: rgba(255, 255, 255, 0.3); }
+        :root {
+            --theme-orange: #F47521;
+            --control-bg: rgba(20, 20, 20, 0.9);
+            --text-color: #fff;
+            --text-color-dim: #aaa;
+            --progress-bg: rgba(255, 255, 255, 0.3);
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body, html { font-family: 'Montserrat', sans-serif; background-color: #000; width: 100%; height: 100%; overflow: hidden; }
-        .video-container { width: 100vw; height: 100vh; position: relative; background-color: #000; cursor: default; }
-        video { width: 100%; height: 100%; object-fit: contain; display: block; }
-        .loading-indicator { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; color: var(--theme-orange); font-size: 50px; }
-        .loading-indicator #progress-text { font-size: 20px; font-weight: 600; color: var(--text-color); margin-top: 20px; }
-        .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+
+        body, html {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            width: 100%; height: 100%;
+            overflow: hidden;
+        }
+
+        .video-container {
+            width: 100vw; height: 100vh;
+            position: relative;
+            background-color: #000;
+            cursor: default;
+        }
+
+        video {
+            width: 100%; height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .loading-indicator {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column; /* Para alinhar texto abaixo do spinner */
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: var(--theme-orange);
+            font-size: 50px;
+        }
+
+        /* NOVO: Estilo para o texto da porcentagem */
+        .loading-indicator #progress-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 20px;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
         .video-container.controls-active .overlay { opacity: 1; }
-        .top-bar { position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); padding: 20px 30px; pointer-events: all; display: flex; align-items: center; }
-        .back-button { background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; margin-right: 20px; }
-        .episode-title { color: var(--text-color); font-size: 18px; font-weight: 600; }
-        .controls-container { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 10px 30px 20px; z-index: 3; pointer-events: all; }
-        .progress-controls { margin-bottom: 10px; padding: 5px 0; }
-        #progress-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: var(--progress-bg); border-radius: 5px; cursor: pointer; outline: none; transition: height 0.2s; }
+
+        .top-bar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+            padding: 20px 30px;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+             background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; margin-right: 20px;
+        }
+
+        .episode-title {
+            color: var(--text-color); font-size: 18px; font-weight: 600;
+        }
+
+        .controls-container {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 10px 30px 20px;
+            z-index: 3;
+            pointer-events: all;
+        }
+
+        .progress-controls {
+            margin-bottom: 10px; padding: 5px 0;
+        }
+
+        #progress-bar {
+            width: 100%;
+            -webkit-appearance: none; appearance: none;
+            height: 4px;
+            background: var(--progress-bg);
+            border-radius: 5px; cursor: pointer;
+            outline: none;
+            transition: height 0.2s;
+        }
+        
         .progress-controls:hover #progress-bar { height: 8px; }
-        #progress-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; background: var(--theme-orange); border-radius: 50%; cursor: pointer; transform: scale(0); transition: transform 0.2s; }
+
+        #progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 16px; height: 16px;
+            background: var(--theme-orange);
+            border-radius: 50%;
+            cursor: pointer;
+            transform: scale(0);
+            transition: transform 0.2s;
+        }
+        
         .progress-controls:hover #progress-bar::-webkit-slider-thumb { transform: scale(1); }
-        .main-controls { display: flex; justify-content: space-between; align-items: center; }
-        .left-controls, .right-controls { display: flex; align-items: center; gap: 15px; }
-        .control-button { background: none; border: none; color: var(--text-color); font-size: 20px; cursor: pointer; padding: 8px; transition: color 0.2s, transform 0.2s; }
-        .control-button:hover { transform: scale(1.1); color: var(--theme-orange); }
-        .control-button:disabled { color: #555; cursor: not-allowed; transform: none; }
-        .time-container { color: var(--text-color); font-size: 14px; font-weight: 600; }
+
+        .main-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-controls, .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-button {
+            background: none; border: none; color: var(--text-color);
+            font-size: 20px; cursor: pointer;
+            padding: 8px; transition: color 0.2s, transform 0.2s;
+        }
+
+        .control-button:hover {
+            transform: scale(1.1);
+            color: var(--theme-orange);
+        }
+
+        .time-container {
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
         .volume-controls { display: flex; align-items: center; }
-        #volume-slider { -webkit-appearance: none; appearance: none; width: 70px; height: 4px; background: var(--progress-bg); border-radius: 5px; cursor: pointer; margin-left: 8px; }
-        #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--text-color); border-radius: 50%; }
-        .settings-menu { position: absolute; bottom: 80px; right: 20px; background-color: var(--control-bg); border-radius: 8px; padding: 10px; color: var(--text-color); display: none; z-index: 4; }
+        #volume-slider {
+            -webkit-appearance: none; appearance: none;
+            width: 70px; height: 4px;
+            background: var(--progress-bg);
+            border-radius: 5px; cursor: pointer;
+            margin-left: 8px;
+        }
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 14px; height: 14px;
+            background: var(--text-color);
+            border-radius: 50%;
+        }
+
+        .settings-menu {
+            position: absolute;
+            bottom: 80px; right: 20px;
+            background-color: var(--control-bg);
+            border-radius: 8px;
+            padding: 10px;
+            color: var(--text-color);
+            display: none;
+            z-index: 4;
+        }
         .settings-menu.active { display: block; }
         .settings-menu .setting { padding: 8px 12px; cursor: pointer; border-radius: 4px; }
         .settings-menu .setting:hover { background-color: rgba(255, 255, 255, 0.1); }
         .settings-menu .setting-label { color: var(--text-color-dim); font-size: 12px; margin-bottom: 5px; }
-        .big-play-button-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; pointer-events: none; display: flex; align-items: center; gap: 50px; opacity: 0; transition: opacity 0.2s; }
+        
+        .big-play-button-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
         .big-play-button-center.visible { opacity: 1; }
-        .big-play-button-center .control-button { font-size: 50px; pointer-events: all; }
+        
+        .big-play-button-center .control-button {
+            font-size: 50px; pointer-events: all;
+        }
     </style>
 </head>
 
@@ -67,7 +226,7 @@
         <div class="overlay" id="overlay">
             <div class="top-bar">
                 <button class="back-button"><i class="fas fa-arrow-left"></i></button>
-                <div class="episode-title" id="episode-title">Carregando...</div>
+                <div class="episode-title">Dexter: New Blood - T01 E01</div>
             </div>
 
             <div class="controls-container">
@@ -95,7 +254,15 @@
         </div>
 
         <div class="settings-menu" id="settings-menu">
+            <div class="setting">
+                <div class="setting-label">Qualidade</div>
+                <div>Automático</div>
             </div>
+            <div class="setting">
+                <div class="setting-label">Legendas</div>
+                <div>Português (Brasil)</div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -103,9 +270,8 @@
         const videoContainer = document.getElementById('video-container');
         const video = document.getElementById('video');
         const loadingIndicator = document.getElementById('loading-indicator');
-        const progressText = document.getElementById('progress-text');
+        const progressText = document.getElementById('progress-text'); // ADICIONADO DE VOLTA
         const overlay = document.getElementById('overlay');
-        const episodeTitleElem = document.getElementById('episode-title');
         const playPauseBtn = document.getElementById('play-pause-btn');
         const bigPlayPauseBtn = document.getElementById('big-play-pause-btn');
         const skipBackwardBtn = document.getElementById('skip-backward-btn');
@@ -118,37 +284,18 @@
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const currentTimeElem = document.getElementById('current-time');
         const totalTimeElem = document.getElementById('total-time');
-        const nextEpisodeBtn = document.getElementById('next-episode-btn');
 
-        // --- ESTADO GLOBAL ---
-        let currentEpisodeData = null;
-
-        // --- LÓGICA DE DADOS DINÂMICOS ---
-
-        // 1. Pega os parâmetros da URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const animeId = urlParams.get('anime');
-        const seasonNumber = parseInt(urlParams.get('season'), 10);
-        const episodeNumber = parseInt(urlParams.get('episode'), 10);
-
-        // 2. Função para carregar o vídeo
-        const loadVideo = async (videoUrl) => {
-            // Mostra o loading e reseta o progresso
-            loadingIndicator.style.display = 'flex';
-            progressText.textContent = '0%';
-            video.src = ''; // Limpa a fonte anterior
-
-            // A URL do proxy agora recebe a URL real do vídeo como parâmetro
-            const proxyUrl = `/api/video-proxy?url=${encodeURIComponent(videoUrl)}`;
-            
+        // --- LÓGICA DE CARREGAMENTO RESTAURADA ---
+        const loadVideo = async () => {
+            const videoUrl = '/api/video-proxy';
             try {
-                const response = await fetch(proxyUrl);
-                if (!response.ok) throw new Error(`Falha na rede ao buscar o vídeo. Status: ${response.status}`);
+                const response = await fetch(videoUrl);
+                if (!response.ok) throw new Error('Falha na rede ao buscar o vídeo.');
 
                 const contentLength = response.headers.get('content-length');
                 if (!contentLength) {
                     console.warn("Não foi possível obter o tamanho do vídeo. O indicador de progresso será desativado.");
-                    progressText.style.display = 'none';
+                    progressText.style.display = 'none'; // Esconde o texto da % se não soubermos o tamanho
                     const videoBlob = await response.blob();
                     video.src = URL.createObjectURL(videoBlob);
                     return;
@@ -156,6 +303,7 @@
 
                 const total = parseInt(contentLength, 10);
                 let loaded = 0;
+
                 const reader = response.body.getReader();
                 const stream = new ReadableStream({
                     start(controller) {
@@ -178,61 +326,15 @@
 
                 const streamResponse = new Response(stream);
                 const videoBlob = await streamResponse.blob();
-                // Libera a URL do objeto anterior se existir para economizar memória
-                if (video.src) {
-                    URL.revokeObjectURL(video.src);
-                }
                 video.src = URL.createObjectURL(videoBlob);
-                video.play(); // Inicia a reprodução automaticamente
 
             } catch (error) {
                 console.error("Erro ao carregar o vídeo:", error);
-                loadingIndicator.innerHTML = `Erro! ${error.message}`;
+                loadingIndicator.innerHTML = "Erro!";
             }
         };
 
-        // 3. Função principal que inicia tudo
-        const initializePlayer = async () => {
-            if (!animeId || !seasonNumber || !episodeNumber) {
-                episodeTitleElem.textContent = "Anime ou episódio não especificado na URL.";
-                loadingIndicator.style.display = 'none';
-                return;
-            }
-
-            try {
-                const res = await fetch('/animeData.json');
-                const data = await res.json();
-                
-                const anime = data.animes.find(a => a.id === animeId);
-                if (!anime) throw new Error("Anime não encontrado.");
-
-                const season = anime.seasons.find(s => s.seasonNumber === seasonNumber);
-                if (!season) throw new Error("Temporada não encontrada.");
-
-                const episode = season.episodes.find(e => e.episodeNumber === episodeNumber);
-                if (!episode) throw new Error("Episódio não encontrado.");
-                
-                // Guarda os dados do episódio atual globalmente
-                currentEpisodeData = { anime, season, episode };
-
-                // Atualiza a UI
-                episodeTitleElem.textContent = `${anime.title} - T${String(season.seasonNumber).padStart(2, '0')} E${String(episode.episodeNumber).padStart(2, '0')}: ${episode.title}`;
-                
-                // Verifica se existe um próximo episódio
-                const nextEpisode = season.episodes.find(e => e.episodeNumber === episodeNumber + 1);
-                nextEpisodeBtn.disabled = !nextEpisode;
-
-                // Carrega o vídeo
-                await loadVideo(episode.videoUrl);
-
-            } catch (error) {
-                console.error("Erro ao inicializar o player:", error);
-                episodeTitleElem.textContent = error.message;
-                loadingIndicator.style.display = 'none';
-            }
-        };
-        
-        // --- LÓGICA DE CONTROLES (sem grandes alterações) ---
+        // --- LÓGICA DE CONTROLES ---
         const togglePlay = () => { video.paused ? video.play() : video.pause(); };
         const updatePlayPauseIcons = () => {
             const isPaused = video.paused;
@@ -261,14 +363,17 @@
             else icon.className = 'fas fa-volume-low';
         };
         const toggleMute = () => { video.muted = !video.muted; };
-        const toggleSettingsMenu = (e) => { e.stopPropagation(); settingsMenu.classList.toggle('active'); };
+        const toggleSettingsMenu = (e) => {
+            e.stopPropagation();
+            settingsMenu.classList.toggle('active');
+        };
         const toggleFullscreen = () => {
             if (!document.fullscreenElement) {
                 videoContainer.requestFullscreen().catch(err => alert(`Erro: ${err.message}`));
             } else { document.exitFullscreen(); }
         };
 
-        // --- LÓGICA DE VISIBILIDADE DOS CONTROLES (sem alterações) ---
+        // --- LÓGICA DE VISIBILIDADE DOS CONTROLES ---
         let controlsTimeout;
         const showControls = () => {
             videoContainer.classList.add('controls-active');
@@ -281,22 +386,6 @@
             }
         };
 
-        const goToNextEpisode = () => {
-            if (!currentEpisodeData) return;
-
-            const { anime, season, episode } = currentEpisodeData;
-            const nextEpisodeNumber = episode.episodeNumber + 1;
-            const nextEpisode = season.episodes.find(e => e.episodeNumber === nextEpisodeNumber);
-
-            if (nextEpisode) {
-                // Atualiza a URL sem recarregar a página
-                const newUrl = `?anime=${anime.id}&season=${season.seasonNumber}&episode=${nextEpisodeNumber}`;
-                history.pushState({}, '', newUrl);
-                // Re-inicializa o player com os novos dados
-                initializePlayer();
-            }
-        };
-
         // --- EVENT LISTENERS ---
         playPauseBtn.addEventListener('click', togglePlay);
         bigPlayPauseBtn.addEventListener('click', togglePlay);
@@ -304,7 +393,10 @@
         skipBackwardBtn.addEventListener('click', () => { video.currentTime -= 10; });
         skipForwardBtn.addEventListener('click', () => { video.currentTime += 10; });
         video.addEventListener('play', updatePlayPauseIcons);
-        video.addEventListener('pause', () => { updatePlayPauseIcons(); showControls(); });
+        video.addEventListener('pause', () => {
+            updatePlayPauseIcons();
+            showControls();
+        });
         video.addEventListener('timeupdate', updateProgress);
         video.addEventListener('volumechange', updateVolumeIcon);
         video.addEventListener('loadedmetadata', () => {
@@ -318,14 +410,12 @@
         muteBtn.addEventListener('click', toggleMute);
         fullscreenBtn.addEventListener('click', toggleFullscreen);
         settingsBtn.addEventListener('click', toggleSettingsMenu);
-        nextEpisodeBtn.addEventListener('click', goToNextEpisode); // NOVO EVENTO
         document.addEventListener('click', () => settingsMenu.classList.remove('active'));
         settingsMenu.addEventListener('click', (e) => e.stopPropagation());
         videoContainer.addEventListener('mousemove', showControls);
         videoContainer.addEventListener('mouseleave', () => clearTimeout(controlsTimeout));
         
-        // --- INICIALIZAÇÃO ---
-        document.addEventListener('DOMContentLoaded', initializePlayer);
+        document.addEventListener('DOMContentLoaded', loadVideo);
     </script>
 </body>
 
